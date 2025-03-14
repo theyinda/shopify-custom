@@ -1,0 +1,109 @@
+{{ 'custom-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-slider.js' | asset_url }}" defer></script>
+
+<section class="custom-slider">
+  <div class="container">
+    <div class="slider-wrapper">
+      <!-- Left Side: Text and Button -->
+      <div class="slider-text">
+        <p class="header_text">{{ section.settings.header_text }}</p>
+        <p class="header_description">{{ section.settings.header_description }}</p>
+        <a href="{{ section.settings.explore_link }}" class="explore-btn">
+          {{ section.settings.explore_text }}
+        </a>
+      </div>
+
+      <!-- Right Side: Slider -->
+      {% comment %} <div class="slider-container">
+        <div class="slides">
+          {% for block in section.blocks %}
+            <div class="slide {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+              <img src="{{ block.settings.image | image_url: width: 600, height: 400 }}" loading="lazy" alt="Slide {{ forloop.index }}" width=""
+              height="">
+            </div>
+          {% endfor %}
+        </div> {% endcomment %}
+        <div class="slider-container">
+        <div class="slides desktop-slides">
+          {% for block in section.blocks %}
+            <div class="slide {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+              <img src="{{ block.settings.image | image_url: width: 600, height: 400 }}" loading="lazy" alt="Slide {{ forloop.index }}" width=""
+              height="">
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Right Arrow Only -->
+        <button class="next">
+      <img
+        src="{{ 'right_arrow.svg' | file_url }}"
+        alt="Arrow"
+        loading="lazy"
+        width=""
+    height=""
+       >
+    </button>
+      
+
+        <!-- Indicators -->
+        <div class="slider-indicators">
+          {% for block in section.blocks %}
+            <span class="indicator {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}"></span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Custom Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header_text",
+      "label": "Header Text",
+      "default": "Explore Our Products"
+    },
+    {
+      "type": "textarea",
+      "id": "header_description",
+      "label": "Description",
+      "default": "Discover the best furniture for your space."
+    },
+    {
+      "type": "url",
+      "id": "explore_link",
+      "label": "Explore More Link"
+    },
+    {
+      "type": "text",
+      "id": "explore_text",
+      "label": "Explore Button Text",
+      "default": "Explore More"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Slider",
+      "category": "Image",
+      "blocks": [{ "type": "image" }, { "type": "image" }, { "type": "image" }, { "type": "image" }]
+    }
+  ]
+}
+{% endschema %}

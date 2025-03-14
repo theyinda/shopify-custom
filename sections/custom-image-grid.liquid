@@ -1,0 +1,57 @@
+{{ 'custom-image-grid.css' | asset_url | stylesheet_tag }}
+
+<section class="custom-image-section">
+  <div class="text-container">
+    <p class="paragraph_text">{{ section.settings.paragraph_text }}</p>
+    <p class="bold_text">{{ section.settings.bold_text }}</p>
+  </div>
+
+  <div class="furniture">
+    <div class="infinite-scroll-container">
+      <div class="scroll-content">
+        <img
+          src="{{ section.settings.furniture_image | image_url }}"
+          alt="Arrow"
+          loading="lazy"
+          width=""
+          height="">
+        <img
+          src="{{ section.settings.furniture_image | image_url }}"
+          alt="Arrow"
+          loading="lazy"
+          width=""
+          height="">
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "Image Grid Section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "paragraph_text",
+        "label": "Section Title",
+        "default": "This is a sample paragraph."
+      }, {
+        "type": "text",
+        "id": "bold_text",
+        "label": "Hashtag",
+        "default": "Bold Text Here"
+      }, {
+        "type": "image_picker",
+        "id": "furniture_image",
+        "label": "Furniture Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image Section",
+        "category": "Custom Sections"
+      }
+    ]
+  }
+{% endschema %}

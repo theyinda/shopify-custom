@@ -1,0 +1,112 @@
+{{ 'custom-header.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-header.js' | asset_url }}" defer></script>
+
+
+<header class="custom-header">
+  <div class="logo">
+    <a href="/">
+      <img
+        src="{{ section.settings.logo | image_url }}"
+        alt="Logo"
+        width="150"
+        height="auto"
+        loading="lazy">
+    </a>
+  </div>
+
+  <button
+    class="menu-toggle"
+    id="menu-toggle"
+    aria-label="Toggle Menu">
+    <img
+      src="{{ 'menu.png' | file_url }}"
+      alt="Menu"
+      width="30"
+      height="30"
+      loading="lazy">
+  </button>
+  <nav id="nav-menu" class="nav-menu">
+    <ul>
+      {% for link in section.settings.menu.links %}
+        <li>
+          <a
+            href="{{ link.url }}"
+            {% if link.url == '/' %}
+            {% if request.path == '/' %}
+            class="active"
+            {% endif %}
+            {% else %}
+            {% if request.path == link.url %}
+            class="active"
+            {% endif %}
+            {% endif %}>
+            {{ link.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+
+  <div class="icons">
+    <a href="https://shopify.com/72510439652/account" class="account">
+      <img
+        src="{{ 'account.svg' | file_url }}"
+        alt="Profile"
+        width=""
+        height=""
+        loading="lazy">
+    </a>
+    <a href="/search">
+      <img
+        src="{{ 'search-icon.svg' | file_url }}"
+        alt="Search"
+        width=""
+        height=""
+        loading="lazy">
+    </a>
+    <a href="/pages/wishlist" class="wishlist-icon-container">
+      <img
+        src="{{ 'wishlist.svg' | file_url }}"
+        alt="Wishlist"
+        width=""
+        height=""
+        loading="lazy">
+      <span class="wishlist-count">0</span>
+    </a>
+    <a href="/cart" class="cart-icon-container">
+
+      <img
+        src="{{ 'cart-icon.svg' | file_url }}"
+        alt="Cart"
+        width=""
+        height=""
+        loading="lazy">
+      <span class="cart-count">{{ cart.item_count }}</span>
+    </a>
+  </div>
+</header>
+
+
+{% schema %}
+  {
+    "name": "Custom Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      }, {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Navigation Menu",
+        "default": "main-menu"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Header"
+      }
+    ]
+  }
+{% endschema %}

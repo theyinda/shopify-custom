@@ -1,0 +1,180 @@
+{{ 'custom-hero.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-hero.js' | asset_url }}" defer></script>
+
+<section class="hero-section">
+  <div class="hero-content">
+    {% if section.settings.hero_image %}
+      <img
+        src="{{ section.settings.hero_image | image_url }}"
+        alt="Hero Image"
+        loading="lazy"
+        width=""
+        height=""
+      >
+    {% endif %}
+
+    <!-- Pop-up -->
+    <div class="hero-popup">
+      <p class="modal-text" style="color: {{ section.settings.initial_text_color }};">
+        {{ section.settings.initial_text }}
+      </p>
+      <p class="modal-title" style="color: {{ section.settings.hero_text_color }};">
+        {{ section.settings.hero_title }}
+      </p>
+      <p class="modal-description" style="color: {{ section.settings.hero_description_color }};">
+        {{ section.settings.hero_description }}
+      </p>
+      <button style="color: {{ section.settings.btn_bg_color }};" class="pop-btn">
+        <a
+          href="{{ section.settings.button_link }}"
+          style="color: {{ section.settings.btn_color }}; text-decoration: none;"
+        >
+          {{ section.settings.button_text }}
+        </a>
+      </button>
+    </div>
+
+    <!-- Scroll-to-footer button -->
+    <button class="scroll-to-footer">
+      <img
+        src="{{ 'arrow.svg' | file_url }}"
+        alt="Arrow"
+        loading="lazy"
+        width=""
+        height=""
+      >
+    </button>
+  </div>
+
+  <!-- Cards -->
+  <div class="hero-cards">
+    {% for block in section.blocks %}
+      <div class="hero-card">
+        {% if block.settings.card_image %}
+          <img
+            class="card-image"
+            src="{{ block.settings.card_image | image_url: width: 1024 }}"
+            alt="{{ block.settings.card_title }}"
+            loading="lazy"
+            width=""
+            height=""
+          >
+        {% endif %}
+        <div class="card-container">
+          <p class="card-title">{{ block.settings.card_title }}</p>
+          <p class="card-amount">
+            {{ block.settings.card_amount }}
+            <span class="card-price">{{ block.settings.card_price }}</span>
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "initial_text",
+      "label": "Modal Title",
+      "default": "Welcome to Our Store"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Modal Header",
+      "default": "Welcome to Our Store"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Modal Description",
+      "default": "Discover amazing products."
+    }, {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Buy Now"
+    }, {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Button Color",
+      "default": "#ffffff"
+    }, {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background",
+      "default": "#283618"
+    }, {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }, {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Modal Title",
+      "default": "#ffffff"
+    }, {
+      "type": "color",
+      "id": "initial_text_color",
+      "label": "Modal Header",
+      "default": "#ffffff"
+    }, {
+      "type": "color",
+      "id": "hero_description_color",
+      "label": "Modal Description Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Hero Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Product Name",
+          "default": "Lolito"
+        }, {
+          "type": "text",
+          "id": "card_amount",
+          "label": "Product Discounted Price",
+          "default": "$99.99"
+        }, {
+          "type": "text",
+          "id": "card_price",
+          "label": "Product Actual Price",
+          "default": "$120.99"
+        }, {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Section",
+      "blocks": [
+        {
+          "type": "card"
+        }, {
+          "type": "card"
+        }, {
+          "type": "card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

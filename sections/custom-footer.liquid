@@ -1,0 +1,168 @@
+{{ 'custom-footer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-footer.js' | asset_url }}" defer></script>
+
+
+<div id="custom-footer">
+  <footer class="custom-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <img
+          src="{{ section.settings.footer_logo | image_url }}"
+          alt="Logo"
+          class="footer-logo"
+          width=""
+          height=""
+          loading="lazy">
+        <p class="footer-address">{{ section.settings.footer_address }}</p>
+      </div>
+
+      <div class="footer-grid">
+        <p class="footer-heading">Links</p>
+        <ul class="footer-links">
+          {% for link in section.settings.menu.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="footer-grid">
+        <p class="footer-heading">Help</p>
+        <ul class="footer-links">
+          <li>
+            <a href="pages/payment-options">{{ section.settings.link_payment_options_text }}</a>
+          </li>
+          <li>
+            <a href="{{shop.refund_policy.url}}">{{ section.settings.link_returns_text }}</a>
+          </li>
+          <li>
+            <a href="{{shop.privacy_policy.url}}">{{ section.settings.link_privacy_policy_text }}</a>
+          </li>
+        </ul>
+      </div>
+
+
+      <div class="footer-bottom-container footer-grid newsletter">
+        <p class="footer-heading">Newsletter</p>
+
+
+        {%- form 'customer'
+          , id: 'NewsletterForm'
+          , class: 'newsletter-form' -%}
+          <input
+            type="hidden"
+            name="contact[tags]"
+            value="newsletter">
+          <div class="input-wrapper">
+            <input
+              type="email"
+              name="contact[email]"
+              class="newsletter-input"
+              required>
+            <button type="submit" class="subscribe-button">{{ section.settings.subscribe_text }}</button>
+          </div>
+
+          {%- if form.errors -%}
+            <small class="newsletter-form__message form__message" id="ContactFooter-error">
+              <span class="svg-wrapper">
+                {{- 'icon-error.svg' | inline_asset_content -}}
+              </span>
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email -}}
+            </small>
+          {%- endif -%}
+
+          {%- if form.posted_successfully? -%}
+            <h3
+              class="newsletter-form__message newsletter-form__message--success form__message"
+              id="ContactFooter-success"
+              tabindex="-1"
+              autofocus>
+              <span class="svg-wrapper">
+                {{- 'icon-success.svg' | inline_asset_content -}}
+              </span>
+              {{ 'newsletter.success' | t }}
+            </h3>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom">
+      <p>{{ section.settings.reserve_text }}</p>
+    </div>
+  </footer>
+</div>
+
+{% schema %}
+  {
+    "name": "Custom Footer",
+    "tag": "section",
+    "class": "custom-footer",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "footer_logo",
+        "label": "Footer Logo"
+      },
+      {
+        "type": "text",
+        "id": "footer_address",
+        "label": "Footer Address",
+        "default": "400 University Drive Suite 200 Coral Gables, FL 33134 USA"
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Footer Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "url",
+        "id": "link_returns",
+        "label": "Returns Link"
+      }, {
+        "type": "text",
+        "id": "link_returns_text",
+        "label": "Returns Link Text",
+        "default": "Returns"
+      }, {
+        "type": "url",
+        "id": "link_privacy_policy",
+        "label": "Privacy Policy Link"
+      }, {
+        "type": "text",
+        "id": "link_privacy_policy_text",
+        "label": "Privacy Policy Link Text",
+        "default": "Privacy Policy"
+      }, {
+        "type": "url",
+        "id": "link_payment_options",
+        "label": "Payment Options Link"
+      }, {
+        "type": "text",
+        "id": "link_payment_options_text",
+        "label": "Payment Options Link Text",
+        "default": "Payment Options"
+      }, {
+        "type": "text",
+        "id": "subscribe_text",
+        "label": "Subscribe Button Text",
+        "default": "SUBSCRIBE"
+      }, {
+        "type": "text",
+        "id": "reserve_text",
+        "label": "Reserve Text",
+        "default": "2024 Furnitura. All rights reserved"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Footer"
+      }
+    ]
+  }
+{% endschema %}
